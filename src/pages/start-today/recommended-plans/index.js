@@ -149,7 +149,7 @@ const RecommendedPlanPage = () => {
             </div>
           </div>
 
-          {shuffledWorkoutData.length !== 0 && (
+          {data?.data.length !== 0 && (
             <h5 className="mt-8 mb-4 text-xl font-medium leading-tight text-neutral-800">
               Recommended Workout Plans
             </h5>
@@ -159,7 +159,7 @@ const RecommendedPlanPage = () => {
               <WorkoutCard key={index} workoutItem={workoutItem} />
             ))}
           </div>
-          {shuffledMealsData.length !== 0 && (
+          {mealPlanData?.data.length !== 0 && (
             <h5 className="my-4 text-xl font-medium leading-tight text-neutral-800">
               Recommended Meal Plans
             </h5>
