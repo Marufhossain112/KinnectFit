@@ -2,7 +2,7 @@ import WorkoutCard from "../Workout-Items/WorkoutCard";
 import HeadingText from "../UI/HeadingText";
 import { KFButton } from "../UI/KFButton";
 import Link from "next/link";
-import { useGetAllWorkoutsQuery, useGetFeaturedWorkoutsQuery } from "@/redux/feature/workout/workout-api";
+import { useGetFeaturedWorkoutsQuery } from "@/redux/feature/workout/workout-api";
 
 const FeaturedWorkouts = () => {
   const { data } = useGetFeaturedWorkoutsQuery();
