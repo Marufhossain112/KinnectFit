@@ -4,15 +4,15 @@ import { workout_data } from "@/lib/db/workout-data";
 import MealPlanCard from "@/components/MealPlanCard/MealPlanCard";
 import WorkoutCard from "@/components/Workout-Items/WorkoutCard";
 import { useSelector } from "react-redux";
-import { Slider } from "@nextui-org/react";
+import { Card, Skeleton, Slider } from "@nextui-org/react";
 import { calculateBmi, getBmiCategory } from "@/lib/getBMI";
 import { getItemFromLocalStorage } from "@/lib/utils";
 import { useGetFeaturedWorkoutsQuery } from "@/redux/feature/workout/workout-api";
 import { useGetFeaturedMealPlansQuery } from "@/redux/feature/meal/meal-api";
 
 const RecommendedPlanPage = () => {
-  const { data } = useGetFeaturedWorkoutsQuery();
-  const { data: mealPlanData } = useGetFeaturedMealPlansQuery();
+  const { data, isLoading } = useGetFeaturedWorkoutsQuery();
+  const { data: mealPlanData, mealPlanLoading } = useGetFeaturedMealPlansQuery();
   const formData = useSelector((state) => state.surveyForm);
 
   const shuffle = (array) => {
@@ -155,9 +155,21 @@ const RecommendedPlanPage = () => {
             </h5>
           )}
           <div className="grid max-w-screen-xl grid-cols-1 gap-6 px-4 py-8 mx-auto place-items-center lg:place-content-center lg:gap-8 xl:gap-8 lg:py-8 lg:grid-cols-4">
-            {data?.data?.map((workoutItem, index) => (
-              <WorkoutCard key={index} workoutItem={workoutItem} />
-            ))}
+
+            {isLoading || !data?.data ? (
+              Array.from({ length: 8 }).map((_, index) => (
+                <Skeleton key={index} className="rounded-lg">
+                  <Card
+                    className="lg:w-[300px] lg:h-[300px] w-[400px] h-[400px]"
+                    radius="lg"
+                  ></Card>
+                </Skeleton>
+              ))
+            ) : (
+              data?.data.map((workoutItem, index) => (
+                <WorkoutCard key={index} workoutItem={workoutItem} />
+              ))
+            )}
           </div>
           {mealPlanData?.data.length !== 0 && (
             <h5 className="my-4 text-xl font-medium leading-tight text-neutral-800">
@@ -165,9 +177,21 @@ const RecommendedPlanPage = () => {
             </h5>
           )}
           <div className="grid max-w-screen-xl grid-cols-2 gap-4 px-4 py-8 mx-auto place-content-center lg:gap-8 xl:gap-8 lg:py-8 lg:grid-cols-4">
-            {mealPlanData?.data.map((mealItem, index) => (
-              <MealPlanCard key={index} mealItem={mealItem} />
-            ))}
+
+            {mealPlanLoading || !mealPlanData?.data ? (
+              Array.from({ length: 12 }).map((_, index) => (
+                <Skeleton key={index} className="rounded-lg">
+                  <Card
+                    className="lg:w-[300px] lg:h-[300px] w-[400px] h-[400px]"
+                    radius="lg"
+                  ></Card>
+                </Skeleton>
+              ))
+            ) : (
+              mealPlanData?.data.map((mealItem, index) => (
+                <MealPlanCard key={index} mealItem={mealItem} />
+              ))
+            )}
           </div>
         </section>
       }
