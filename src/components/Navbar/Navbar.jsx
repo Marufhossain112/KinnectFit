@@ -77,9 +77,12 @@ export default function KFNavbar() {
         <NavbarItem>
           <Link href="/meal-plans">Find your Meal</Link>
         </NavbarItem>
-        <NavbarItem>
-          <Link href={accessToken ? "/become-trainer" : "/sign-in"}>Become a trainer</Link>
-        </NavbarItem>
+        {
+          (userData?.role !== 'trainer' && userData?.role !== 'admin') && <NavbarItem>
+            <Link href={accessToken ? "/become-trainer" : "/sign-in"}>Become a trainer</Link>
+          </NavbarItem>
+        }
+
       </NavbarContent>
 
       <NavbarContent justify="end">
